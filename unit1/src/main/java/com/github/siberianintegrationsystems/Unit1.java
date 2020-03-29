@@ -1,9 +1,6 @@
 package com.github.siberianintegrationsystems;
 
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class Unit1 {
 
     private static final String INPUT_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
@@ -11,21 +8,20 @@ public class Unit1 {
 
 
     public static void main(String[] args) {
-        String result = revertString();
+        StringBuilder result = revertString();
         checkResult(result);
     }
+    private static StringBuilder revertString()
+    {
+        return INPUT_STRING.chars()
+                .mapToObj(c -> (char)c)
+                .reduce(new StringBuilder(),
+                        (s,c) -> new StringBuilder(String.valueOf(c)).append(s),
+                        (s1,s2) -> s2.append(s1));
 
-    /**
-     * При реализации метода нельзя использовать метод reverse() из класса StringBuilder
-     * @return
-     */
-    private static String revertString() {
-      return IntStream.range(0, INPUT_STRING.length())
-              .mapToObj((i) -> String.valueOf(INPUT_STRING.charAt(INPUT_STRING.length() - i - 1)))
-              .collect(Collectors.joining());
     }
 
-    private static void checkResult(String result) {
+    private static void checkResult(StringBuilder result) {
         if (INPUT_STRING.equals(new StringBuilder(result).reverse().toString())) {
             System.out.println("Строка изменена корректно");
         } else {
