@@ -28,6 +28,7 @@ public class Solution {
      */
     private final BigDecimal price;
 
+
     @Override
     public String toString() {
         return String.format("\tSolution of delivery task '%s' with transport '%s' by price: '%s'",
