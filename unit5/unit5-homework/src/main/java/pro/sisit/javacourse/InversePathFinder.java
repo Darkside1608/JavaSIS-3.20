@@ -1,10 +1,15 @@
 package pro.sisit.javacourse;
 
+import pro.sisit.javacourse.inverse.BigDecimalRange;
 import pro.sisit.javacourse.inverse.InverseDeliveryTask;
 import pro.sisit.javacourse.inverse.Solution;
+import pro.sisit.javacourse.optimal.DeliveryTask;
+import pro.sisit.javacourse.optimal.Route;
+import pro.sisit.javacourse.optimal.Transport;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InversePathFinder {
 
