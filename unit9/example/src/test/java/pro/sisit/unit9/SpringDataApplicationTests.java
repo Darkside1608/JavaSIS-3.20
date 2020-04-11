@@ -1,17 +1,28 @@
 package pro.sisit.unit9;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
-import pro.sisit.unit9.data.AuthorOfBookRepository;
-import pro.sisit.unit9.data.AuthorRepository;
-import pro.sisit.unit9.data.BookRepository;
+import pro.sisit.unit9.data.*;
 import pro.sisit.unit9.entity.Author;
 import pro.sisit.unit9.entity.AuthorOfBook;
 import pro.sisit.unit9.entity.Book;
+import pro.sisit.unit9.entity.Buyer;
+import pro.sisit.unit9.service.SellerService;
+
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,8 +37,46 @@ public class SpringDataApplicationTests {
 	@Autowired
 	private AuthorOfBookRepository authorOfBookRepository;
 
+	@Autowired
+	private SellerService sellerService;
+
+	@Autowired
+	private BuyerRepository buyerRepository;
+
+	@Autowired
+	private BookPurchasedRepository bookPurchasedRepository;
+
+
+
 	@Before
 	public void init() {
+		bookInit();
+		saleInit();
+	}
+
+	@After
+	public void del() {
+		authorOfBookRepository.deleteAll();
+		bookPurchasedRepository.deleteAll();
+		authorRepository.deleteAll();
+		bookRepository.deleteAll();
+		buyerRepository.deleteAll();
+	}
+
+	private void saleInit(){
+		Buyer buyerOne = new Buyer();
+		buyerOne.setName("Пал Палыч");
+		buyerOne.setAddress("Южная 40");
+		buyerRepository.save(buyerOne);
+
+		Buyer buyerTwo = new Buyer();
+		buyerTwo.setName("Имя Фамилия");
+		buyerTwo.setAddress("Центральная улица 20");
+		buyerRepository.save(buyerTwo);
+	}
+
+
+	private void bookInit(){
 		Book book = new Book();
 		book.setDescription("Увлекательные приключения Тома Сойера");
 		book.setTitle("Приключения Тома Сойера");
@@ -85,8 +134,9 @@ public class SpringDataApplicationTests {
 		authorOfBookRepository.save(authorOfBook4);
 	}
 
-	@Test
-	public void testSave() {
+
+	//@Test
+	//public void testSave() {
 //		boolean founded = false;
 //		for (Book iteratedBook : bookRepository.findAll()) {
 //			if (iteratedBook.getTitle().equals("Буратино")
@@ -96,47 +146,85 @@ public class SpringDataApplicationTests {
 //			}
 //		}
 //		assertTrue(founded);
-	}
+
 
 	@Test
 	public void testFindByYear() {
-//		assertEquals(2, bookRepository.findByYear(1876).size());
-//		assertEquals(1, bookRepository.findByYear(1884).size());
-//		assertEquals(0, bookRepository.findByYear(2000).size());
+	assertEquals(2, bookRepository.findByYear(1876).size());
+		assertEquals(1, bookRepository.findByYear(1884).size());
+		assertEquals(0, bookRepository.findByYear(2000).size());
 	}
 
 	@Test
 	public void testFindAtPage() {
-//		PageRequest pageRequest = PageRequest.of(1, 1, Sort.Direction.ASC, "title");
-//		assertTrue(bookRepository.findAll(pageRequest)
-//				.get().allMatch(book -> book.getTitle().equals("Михаил Строгов")));
+	PageRequest pageRequest = PageRequest.of(1, 1, Sort.Direction.ASC, "title");
+		assertTrue(bookRepository.findAll(pageRequest)
+				.get().allMatch(book -> book.getTitle().equals("Михаил Строгов")));
 	}
 
 	@Test
 	public void testFindSame() {
-//		Book book = new Book();
-//		book.setYear(1876);
-//
-//		assertEquals(2, bookRepository.findAll(Example.of(book)).size());
+		Book book = new Book();
+		book.setYear(1876);
+
+		assertEquals(2, bookRepository.findAll(Example.of(book)).size());
 	}
 
 	@Test
 	public void testFindInRange() {
-//		assertEquals(3, bookRepository.findAll(
-//				BookSpecifications.byYearRange(1800, 1900)).size());
-//		assertEquals(0, bookRepository.findAll(
-//				BookSpecifications.byYearRange(2000, 2010)).size());
+		assertEquals(3, bookRepository.findAll(
+				BookSpecifications.byYearRange(1800, 1900)).size());
+		assertEquals(0, bookRepository.findAll(
+				BookSpecifications.byYearRange(2000, 2010)).size());
 	}
 
 	@Test
 	public void testFindByAuthorLastname() {
-//		assertTrue(bookRepository.findByAuthor("Верн")
-//				.stream().allMatch(book -> book.getTitle().equals("Михаил Строгов")));
+		assertTrue(bookRepository.findByAuthor("Верн")
+				.stream().allMatch(book -> book.getTitle().equals("Михаил Строгов")));
 	}
 
 	@Test
 	public void testComplexQueryMethod() {
-//		assertEquals(4, bookRepository.complexQueryMethod().size());
+		assertEquals(4, bookRepository.complexQueryMethod().size());
+	}
+
+	@Test
+	public void testSave() {
+		boolean founded = false;
+		for (Book iteratedBook : bookRepository.findAll()) {
+			if (iteratedBook.getTitle().equals("Буратино")
+					&& iteratedBook.getId() > 0) {
+				founded = true;
+				break;
+			}
+		}
+		assertTrue(founded);
+	}
+
+	@Test
+	public void sellerServiceTest(){
+		Book book = bookRepository.findAll().get(0);
+		Book book1 = bookRepository.findAll().get(1);
+		Book book2 = bookRepository.findAll().get(2);
+		Book book3 = bookRepository.findAll().get(3);
+
+		Buyer buyer = ((ArrayList<Buyer>) buyerRepository.findAll()).get(0);
+		Buyer buyer1 = ((ArrayList<Buyer>) buyerRepository.findAll()).get(1);
+
+		sellerService.selleBook(buyer, book, BigDecimal.valueOf(150));
+		assertEquals(bookPurchasedRepository.findByBookAndBuyer(book, buyer).size(), 1);
+
+		sellerService.selleBook(buyer, book1, BigDecimal.valueOf(400));
+		sellerService.selleBook(buyer, book2, BigDecimal.valueOf(100));
+		sellerService.selleBook(buyer, book3, BigDecimal.valueOf(600));
+		sellerService.selleBook(buyer1,book3, BigDecimal.valueOf(600));
+
+		assertEquals(sellerService.calculatePriceBook(book3).compareTo(BigDecimal.valueOf(1200)), 0);
+		assertEquals(sellerService.calculatePriceBook(book1).compareTo(BigDecimal.valueOf(400)), 0);
+		assertEquals(sellerService.calculatePriceBuyer(buyer).compareTo(BigDecimal.valueOf(1250)),0);
+		assertEquals(sellerService.calculatePriceBuyer(buyer1).compareTo(BigDecimal.valueOf(600)),0);
+
 	}
 
 }
