@@ -1,9 +1,13 @@
 package com.github.siberianintegrationsystems.restApp.entity;
 
+
+
 import javax.persistence.*;
 
 @Entity
+
 public class Question extends BaseEntity {
+
 
     @Column
     private String name;
