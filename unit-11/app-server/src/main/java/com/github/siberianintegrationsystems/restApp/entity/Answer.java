@@ -12,7 +12,6 @@ public class Answer extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
 
-
     @Column
     private Boolean isCorrect;
 
@@ -39,6 +38,4 @@ public class Answer extends BaseEntity {
     public void setCorrect(Boolean correct) {
         isCorrect = correct;
     }
-
-
 }
