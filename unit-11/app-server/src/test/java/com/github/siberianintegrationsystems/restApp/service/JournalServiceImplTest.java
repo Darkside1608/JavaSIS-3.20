@@ -5,7 +5,7 @@ import com.github.siberianintegrationsystems.restApp.controller.dto.JournalReque
 import com.github.siberianintegrationsystems.restApp.controller.dto.QuestionsItemDTO;
 import com.github.siberianintegrationsystems.restApp.controller.dto.sessiondto.SessionItemDTO;
 import com.github.siberianintegrationsystems.restApp.data.AnswerRepository;
-import com.github.siberianintegrationsystems.restApp.data.JournalRepository;
+
 
 import com.github.siberianintegrationsystems.restApp.data.QuestionRepository;
 import com.github.siberianintegrationsystems.restApp.data.SessionRepository;
@@ -15,7 +15,7 @@ import com.github.siberianintegrationsystems.restApp.entity.Journal;
 
 import com.github.siberianintegrationsystems.restApp.entity.Question;
 import com.github.siberianintegrationsystems.restApp.entity.Session;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

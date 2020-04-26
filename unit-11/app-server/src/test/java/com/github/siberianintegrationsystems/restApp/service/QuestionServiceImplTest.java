@@ -6,7 +6,7 @@ import com.github.siberianintegrationsystems.restApp.controller.dto.QuestionsIte
 import com.github.siberianintegrationsystems.restApp.data.AnswerRepository;
 import com.github.siberianintegrationsystems.restApp.data.QuestionRepository;
 import com.github.siberianintegrationsystems.restApp.entity.Answer;
-import com.github.siberianintegrationsystems.restApp.entity.BaseEntity;
+
 import com.github.siberianintegrationsystems.restApp.entity.Question;
 import org.junit.After;
 import org.junit.Before;
@@ -17,9 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
 import java.util.Arrays;
-import java.util.List;
+
 import java.util.stream.Collectors;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
