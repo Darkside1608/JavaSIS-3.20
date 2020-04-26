@@ -2,7 +2,6 @@ package com.github.siberianintegrationsystems.restApp.controller.dto;
 
 import com.github.siberianintegrationsystems.restApp.entity.Answer;
 import com.github.siberianintegrationsystems.restApp.entity.Question;
-import com.github.siberianintegrationsystems.restApp.entity.Session;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +21,4 @@ public class QuestionsItemDTO extends JournalItemDTO {
                 .map(AnswerItemDTO::new)
                 .collect(Collectors.toList());
     }
-
-
 }

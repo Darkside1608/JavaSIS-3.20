@@ -1,18 +1,9 @@
 package com.github.siberianintegrationsystems.restApp;
 
-import com.github.siberianintegrationsystems.restApp.controller.JournalRestController;
-import com.github.siberianintegrationsystems.restApp.controller.QuestionRestController;
-import com.github.siberianintegrationsystems.restApp.controller.SessionRestController;
-import com.github.siberianintegrationsystems.restApp.data.*;
-import com.github.siberianintegrationsystems.restApp.service.JournalService;
-import com.github.siberianintegrationsystems.restApp.service.QuestionService;
-import com.github.siberianintegrationsystems.restApp.service.SessionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -56,17 +47,6 @@ public class RestAppApplicationTests {
 	}
 }
 	public void contextLoads() {
-		assertNotNull(journalService);
-		assertNotNull(questionService);
-		assertNotNull(sessionService);
-		assertNotNull(journalRestController);
-		assertNotNull(questionRestController);
-		assertNotNull(sessionRestController);
-		assertNotNull(answerRepository);
-		assertNotNull(journalRepository);
-		assertNotNull(questionRepository);
-		assertNotNull(selectedAnswerRepository);
-		assertNotNull(sessionRepository);
 	}
 
 }
